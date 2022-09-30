@@ -1,5 +1,7 @@
-import { useForm } from '../../hooks';
+import { useAuthStore, useForm } from '../../hooks';
 import './LoginPage.css';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const loginFormFields = {
     loginEmail: '',
@@ -14,6 +16,8 @@ const registerFormFields = {
 }
 
 export const LoginPage = () => {
+
+    const { startLogin, startRegister, errorMessage } = useAuthStore();
 
     const { 
         loginEmail, 
@@ -31,18 +35,25 @@ export const LoginPage = () => {
 
     const loginSubmit = (event) => {
         event.preventDefault();
-        console.log({ loginEmail, loginPassword, });
+        startLogin({ email: loginEmail, password: loginPassword, });
     }
 
     const registerSubmit = (event) => {
         event.preventDefault();
-        console.log({ 
-            registerName, 
-            registerEmail, 
-            registerPassword, 
-            registerPassword2,
-         });
+        if ( registerPassword !== registerPassword2 ){
+            Swal.fire('Error in Register', 'Passwords not match', 'error');
+            return;
+        }
+
+        startRegister({ name: registerName, email: registerEmail, password: registerPassword });       
     }
+
+    useEffect(() => {
+      if ( errorMessage !== undefined ){
+        Swal.fire('Error in Auth', errorMessage, 'error' );
+      }
+    }, [errorMessage])
+    
 
     return (
         <div className="container login-container">
@@ -58,6 +69,7 @@ export const LoginPage = () => {
                                 name='loginEmail'
                                 value={ loginEmail }
                                 onChange={ onLoginInputChange }
+                                required
                             />
                         </div>
                         <div className="form-group mb-2">
@@ -68,6 +80,7 @@ export const LoginPage = () => {
                                 name='loginPassword'
                                 value={ loginPassword }
                                 onChange={ onLoginInputChange }
+                                required
                             />
                         </div>
                         <div className="form-group mb-2">
@@ -91,6 +104,7 @@ export const LoginPage = () => {
                                 name='registerName'
                                 value={ registerName }
                                 onChange={ onRegisterInputChange }
+                                required
                             />
                         </div>
                         <div className="form-group mb-2">
@@ -101,6 +115,7 @@ export const LoginPage = () => {
                                 name='registerEmail'
                                 value={ registerEmail }
                                 onChange={ onRegisterInputChange }
+                                required
                             />
                         </div>
                         <div className="form-group mb-2">
@@ -111,6 +126,7 @@ export const LoginPage = () => {
                                 name='registerPassword'
                                 value={ registerPassword }
                                 onChange={ onRegisterInputChange }
+                                required
                             />
                         </div>
 
@@ -122,6 +138,7 @@ export const LoginPage = () => {
                                 name='registerPassword2'
                                 value={ registerPassword2 }
                                 onChange={ onRegisterInputChange }
+                                required
                             />
                         </div>
 
