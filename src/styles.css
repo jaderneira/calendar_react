@@ -46,6 +46,15 @@
     font-size: 20px;
     padding: 20px;
     position: fixed;
-    right: 25px;
-    z-index: 1;
+    right: 25px;    
+}
+
+.fab-danger {
+    border-radius: 100%;
+    bottom: 25px;
+    font-size: 22px;
+    position: fixed;
+    left: 25px;
+    width: 60px;
+    height: 60px;
 }
