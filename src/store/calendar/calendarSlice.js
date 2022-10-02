@@ -20,9 +20,7 @@ export const calendarSlice = createSlice({
     initialState: {
         isLoadingEvents: true,
         activeEvent: null,
-        events: [
-            
-        ],
+        events: [],
     },
     reducers: {
         onSetActiveEvent: (state, { payload } ) => {
@@ -58,6 +56,11 @@ export const calendarSlice = createSlice({
                     state.events.push( event )
                 }
             })
+        },
+        onLogoutCalendar: (state) => {
+            state.isLoadingEvents = true;
+            state.activeEvent = null;
+            state.events = [];
         }
 
     }
@@ -69,6 +72,7 @@ export const {
     onAddNewEvent, 
     onDeleteEvent, 
     onLoadEvents,
+    onLogoutCalendar,
     onSetActiveEvent, 
     onUpdateEvent, 
 } = calendarSlice.actions;
